@@ -13,9 +13,14 @@ class MainWindow: public QMainWindow {
         MainWindow(QWidget *parent = 0);
         ~MainWindow();
 
+        QLabel *m_vertexCount;
+        QLabel *m_lineCount;
     public slots:
         void addVertices();
-
+        void moveVertices();
+        void deleteVertices();
+        void addLine();
+        void deleteLine();
     protected:
         void initMenus();
         void initWidgets();
@@ -36,8 +41,7 @@ class MainWindow: public QMainWindow {
             QAction *m_DeleteLineAction;
         QStatusBar *m_statusBar;
             QLabel *m_activeTool;
-            QLabel *m_vertexCount;
-            QLabel *m_lineCount;
+
 };
 
 #endif // MAINWINDOW_H

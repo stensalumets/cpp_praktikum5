@@ -71,6 +71,26 @@ void MainWindow::initMenus() {
     m_AddVertexAction -> setText(QString("&Add Vertex"));
     m_toolsMenu -> addAction(m_AddVertexAction);
     connect(m_AddVertexAction, SIGNAL(triggered()), this, SLOT(addVertices()));
+
+    m_MoveVertexAction = new QAction(this);
+    m_MoveVertexAction -> setText(QString("&Move Vertex"));
+    m_toolsMenu -> addAction(m_MoveVertexAction);
+    connect(m_MoveVertexAction, SIGNAL(triggered()), this, SLOT(moveVertices()));
+
+    m_DeleteVertexAction = new QAction(this);
+    m_DeleteVertexAction -> setText(QString("&Delete Vertex"));
+    m_toolsMenu -> addAction(m_DeleteVertexAction);
+    connect(m_DeleteVertexAction, SIGNAL(triggered()), this, SLOT(deleteVertices()));
+
+    m_AddLineAction = new QAction(this);
+    m_AddLineAction -> setText(QString("&Add Line"));
+    m_toolsMenu -> addAction(m_AddLineAction);
+    connect(m_AddLineAction, SIGNAL(triggered()), this, SLOT(addLine()));
+
+    m_DeleteLineAction = new QAction(this);
+    m_DeleteLineAction -> setText(QString("&Delete Line"));
+    m_toolsMenu -> addAction(m_DeleteLineAction);
+    connect(m_DeleteLineAction, SIGNAL(triggered()), this, SLOT(deleteLine()));
 }
 
 /**
@@ -90,7 +110,7 @@ void MainWindow::initStatusBar() {
     m_activeTool = new QLabel(this);
     m_activeTool->setText("Active tool: None");
     m_vertexCount = new QLabel(this);
-    m_vertexCount->setText("Vertices: 0");
+    m_vertexCount->setText(tr("Vertices: %1").arg(m_drawingWidget->m_vertices.size()));
     m_lineCount = new QLabel(this);
     m_lineCount->setText("Lines: 0");
 
@@ -103,5 +123,33 @@ void MainWindow::addVertices() {
     //std::cout << "Add Vertex" << std::endl;
 
     m_drawingWidget->setState(STATE::ADD_VERTEX);
-    m_activeTool->setText("Active tool: ADD VERTEX");
+    m_activeTool->setText("Adding vertices");
+}
+
+void MainWindow::moveVertices() {
+    if (!m_drawingWidget->m_vertices.isEmpty()) {
+        m_drawingWidget->setState(STATE::MOVE_VERTEX);
+        m_activeTool->setText("Moving vertices");
+    }
+}
+
+void MainWindow::deleteVertices() {
+    if (!m_drawingWidget->m_vertices.isEmpty()) {
+        m_drawingWidget->setState(STATE::DELETE_VERTEX);
+        m_activeTool->setText("Deleting vertices");
+    }
+}
+
+void MainWindow::addLine() {
+    if (m_drawingWidget->m_vertices.size() > 1) {
+        m_drawingWidget->setState(STATE::ADD_LINE);
+        m_activeTool->setText("Adding lines");
+    }
+}
+
+void MainWindow::deleteLine() {
+    if (m_drawingWidget->m_vertices.size() > 1) {
+        m_drawingWidget->setState(STATE::DELETE_LINE);
+        m_activeTool->setText("Deleting lines");
+    }
 }
