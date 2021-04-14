@@ -8,13 +8,15 @@
 #include <QStatusBar>
 #include <QWhatsThis>
 #include "drawingwidget.h"
-
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    this -> setFixedSize(800, 600); // Seame akna suuruseks 800x600 ja ei luba muutmist
 	initWidgets();
     initMenus();
+    initStatusBar();
 }
 
 MainWindow::~MainWindow() {
@@ -61,6 +63,14 @@ void MainWindow::initMenus() {
     connect(m_aboutAction, SIGNAL(triggered()),
             qApp, SLOT(aboutQt()));
 
+    m_toolsMenu = new QMenu(this);
+    m_toolsMenu->setTitle(QString("&Tools"));
+    menuBar()->addMenu(m_toolsMenu);
+
+    m_AddVertexAction = new QAction(this);
+    m_AddVertexAction -> setText(QString("&Add Vertex"));
+    m_toolsMenu -> addAction(m_AddVertexAction);
+    connect(m_AddVertexAction, SIGNAL(triggered()), this, SLOT(addVertices()));
 }
 
 /**
@@ -73,3 +83,25 @@ void MainWindow::initWidgets() {
     setCentralWidget(m_drawingWidget);
 }
 
+void MainWindow::initStatusBar() {
+    m_statusBar = new QStatusBar(this);
+    this->setStatusBar(m_statusBar);
+
+    m_activeTool = new QLabel(this);
+    m_activeTool->setText("Active tool: None");
+    m_vertexCount = new QLabel(this);
+    m_vertexCount->setText("Vertices: 0");
+    m_lineCount = new QLabel(this);
+    m_lineCount->setText("Lines: 0");
+
+    m_statusBar->addWidget(m_activeTool);
+    m_statusBar->addWidget(m_vertexCount);
+    m_statusBar->addWidget(m_lineCount);
+}
+
+void MainWindow::addVertices() {
+    //std::cout << "Add Vertex" << std::endl;
+
+    m_drawingWidget->setState(STATE::ADD_VERTEX);
+    m_activeTool->setText("Active tool: ADD VERTEX");
+}

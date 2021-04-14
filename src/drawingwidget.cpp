@@ -19,11 +19,16 @@ DrawingWidget::~DrawingWidget() {
     // Nothing here yet
 }
 
+void DrawingWidget::setState(STATE state) {
+    m_state = state;
+}
+
 /**
   Overridden method to handle all received paint events.
   \param[in] event the paint event that was received.
 */
 void DrawingWidget::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
-    painter.fillRect(event->rect(), Qt::white);
+    const QColor myColor(143,188,143, 255);
+    painter.fillRect(event->rect(), myColor);
 }

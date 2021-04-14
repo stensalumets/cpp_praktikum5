@@ -19,10 +19,13 @@ class DrawingWidget: public QWidget {
         DrawingWidget(MainWindow *parent = 0);
         ~DrawingWidget();
 
+        QList<Punkt> m_vertices;
+        
         STATE m_state = STATE::NONE;
 
         STATE getState() { return m_state; }
         void setState(STATE state);
+        
     protected:
         void paintEvent(QPaintEvent *event);
         MainWindow *m_mainWindow;
