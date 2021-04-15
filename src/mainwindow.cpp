@@ -110,7 +110,7 @@ void MainWindow::initStatusBar() {
     m_activeTool = new QLabel(this);
     m_activeTool->setText("Active tool: None");
     m_vertexCount = new QLabel(this);
-    m_vertexCount->setText(tr("Vertices: %1").arg(m_drawingWidget->m_vertices.size()));
+    m_vertexCount->setText("Vertices: 0");
     m_lineCount = new QLabel(this);
     m_lineCount->setText("Lines: 0");
 
@@ -152,4 +152,9 @@ void MainWindow::deleteLine() {
         m_drawingWidget->setState(STATE::DELETE_LINE);
         m_activeTool->setText("Deleting lines");
     }
+}
+
+void MainWindow::updateLabels(int vertices, int lines) {
+    m_vertexCount->setText(tr("Vertices: %1").arg(vertices));
+    m_lineCount->setText(tr("Lines: %1").arg(lines));
 }
